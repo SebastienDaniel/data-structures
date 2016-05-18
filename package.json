@@ -1,0 +1,30 @@
+{
+  "name": "sebastiendaniel-adt",
+  "description": "",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": {
+    "name": "Sebastien Daniel",
+    "email": "info@sebastiendaniel.ca",
+    "url": "http://www.sebastiendaniel.ca/"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "grunt": "*",
+    "jsdoc-to-markdown": "*",
+    "grunt-exec": "*",
+    "grunt-jscs": "*",
+    "grunt-contrib-jshint": "*",
+    "mocha": "*",
+    "chai": "*",
+    "grunt-mocha-istanbul": "*"
+  }
+}
