@@ -1,5 +1,5 @@
 var expect = require("chai").expect,
-    Dictionary = require("../../src/scripts/Dictionary");
+    Dictionary = require("../../Dictionary");
 
 describe("Dictionary", function() {
     var d = new Dictionary();

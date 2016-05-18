@@ -1,8 +1,10 @@
-function Stack() {
+"use strict";
+
+function Queue() {
     this._data = [];
 }
 
-Stack.prototype = {
+Queue.prototype = {
     add: function add(value) {
         this._data.push(value);
 
@@ -10,7 +12,7 @@ Stack.prototype = {
     },
 
     remove: function remove() {
-        return this._data.pop();
+        return this._data.shift();
     },
 
     clear: function clear() {
@@ -20,10 +22,8 @@ Stack.prototype = {
         return this;
     },
 
-    peek: function peek() {
-        if (this._data.length) {
-            return this._data[this._data.length - 1];
-        }
+    peek: function() {
+        return this._data[0];
     },
 
     exists: function exists(value) {
@@ -31,7 +31,8 @@ Stack.prototype = {
     }
 };
 
-Object.defineProperty(Stack.prototype, "size", {
+// size is not a method, it's a property
+Object.defineProperty(Queue.prototype, "size", {
     get: function() {
         return this._data.length;
     },

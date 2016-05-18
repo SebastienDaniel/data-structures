@@ -3,73 +3,38 @@ module.exports = function(grunt) {
     
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
-        removelogging: {
-            build: {
-                src: "fieldValidator.js"
-            }
-        },
-        clean: ["build/**"],
-        uglify: {
-            build: {
-                options: {
-                    mangle: true,
-                    compress: true,
-                    screw_ie8: true,
-                    preserveComments: false,
-                    mangleProperties: true,
-                    reserveDOMProperties: true
-                },
-                src: "fieldValidator.js",
-                dest: "fieldValidator.min.js"
-            }
-        },
         jshint: {
-            src: ["fieldValidator.js"]
+            options: {
+                jshintrc: true
+            },
+            src: [
+                "Dictionary/**/*.js",
+                "Queue/**/*.js",
+                "Stack/**/*.js"
+            ]
         },
         jscs: {
-            src: "fieldValidator.js"
-        },
-        jsdoc: {
-            dev: {
-                src: ['fieldValidator.js'],
-                options: {
-                    destination: 'doc/'
-                }
-            }
-        },
-        jasmine: {
-            src: ["fieldValidator.js"],
             options: {
-                specs: ["test/*spec.js"]
-            }
+                config: ".jscsrc"
+            },
+            src: [
+                "Dictionary/**/*.js",
+                "Queue/**/*.js",
+                "Stack/**/*.js"
+            ]
         },
-        githooks: {
-            all: {
-                "pre-commit": {
-                    taskNames: "",
-                    template: "gitHookTemplate.txt",
-                    errorMsg: "Your files do not pass the quality tests\\nPlease fix your files before committing"
-                },
-                "pre-push": {
-                    taskNames: "",
-                    template: "gitHookTemplate.txt"
-                }
+        mochaTest: {
+            test: {
+                src: ["tests/**/*.test.js"]
             }
         }
     });
 
     // Load the plugins
-    grunt.loadNpmTasks("grunt-remove-logging");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-jscs");
-    grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-jsdoc");
-    grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-contrib-jasmine");
-    grunt.loadNpmTasks("grunt-githooks");
+    grunt.loadNpmTasks("grunt-mocha-test");
     
-    // dev build starts by wiping build/dev/ clean
-    grunt.registerTask("test", ["jshint", "jscs", "jasmine"]);
-    grunt.registerTask("build", ["test", "clean", "removelogging:build", "uglify:build"]);
-    //grunt.registerTask("prod-build", ["copy:prod"]);
+    grunt.registerTask("test", ["jshint", "jscs", "mochaTest"]);
 };

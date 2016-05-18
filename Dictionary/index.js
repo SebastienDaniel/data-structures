@@ -1,9 +1,10 @@
 "use strict";
+
 function Dictionary() {
     if (!(this instanceof Dictionary)) {
         return new Dictionary();
     }
-    
+
     this._data = Object.create(null);
 }
 
@@ -73,7 +74,7 @@ Dictionary.prototype = {
 
     forEach: function(cb) {
         if (typeof cb !== "function") {
-            throw TypeError("Dictionary.forEach() expects a function as argument. Provided\n" + cb + " (" + typeof cb + ")");
+            throw new TypeError("Dictionary.forEach() expects a function as argument. Provided\n" + cb + " (" + typeof cb + ")");
         }
         Object.keys(this._data).forEach(function(key, i, a) {
             cb(key, this._data[key], i, a);
