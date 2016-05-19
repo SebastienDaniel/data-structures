@@ -19,53 +19,31 @@ Dictionary.prototype = {
         return Object.keys(this._data);
     },
 
-    add: function add(key, value) {
-        // monadic handler
-        if (key !== null && typeof key === "object") {
-            Object.keys(key).forEach(function(k) {
-                this.add(k, key[k]);
-            }, this);
-        } else if (this.exists(key)) {
-            throw Error("Dictionary already has a value for key: " + key + "\nUse update(key, value) instead");
-        } else {
-            // add new entry
-            this._data[key] = value;
-        }
-
-        return this;
+    get: function get(key) {
+        return this._data[key];
     },
 
-    update: function update(key, value) {
+    set: function set(key, value) {
         // monadic handler
-        if (key !== null && typeof key === "object") {
+        if (key && typeof key === "object") {
             Object.keys(key).forEach(function(k) {
-                this.update(k, key[k]);
+                this.set(k, key[k]);
             }, this);
-        } else if (this.exists(key)) {
-            this._data[key] = value;
         } else {
-            throw Error("Dictionary does not have a value for key: " + key + "\nuse add(key, value) instead");
+            // set new entry
+            this._data[key] = value;
         }
 
         return this;
     },
 
     remove: function remove(key) {
-        var prev;
-
-        if (this.exists(key)) {
-            // store value
-            prev = this._data[key];
-
+        if (this.hasKey(key)) {
             // remove from dictionary
             delete this._data[key];
         }
 
         return this;
-    },
-
-    get: function get(key) {
-        return this._data[key];
     },
 
     hasKey: function hasKey(key) {
