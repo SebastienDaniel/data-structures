@@ -26,8 +26,12 @@ Queue.prototype = {
         return this._data[0];
     },
 
-    exists: function exists(value) {
+    hasValue: function exists(value) {
         return this._data.indexOf(value) !== -1;
+    },
+
+    isEmpty: function isEmpty() {
+        return this._data.length === 0;
     }
 };
 

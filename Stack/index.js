@@ -28,8 +28,12 @@ Stack.prototype = {
         }
     },
 
-    exists: function exists(value) {
+    hasValue: function exists(value) {
         return this._data.indexOf(value) !== -1;
+    },
+
+    isEmpty: function isEmpty() {
+        return this._data.length === 0;
     }
 };
 

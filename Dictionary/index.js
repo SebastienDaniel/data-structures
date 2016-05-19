@@ -9,17 +9,17 @@ function Dictionary() {
 }
 
 Dictionary.prototype = {
-    getValues: function() {
+    getValues: function getValues() {
         return Object.keys(this._data).map(function(key) {
             return this._data[key];
         }, this);
     },
 
-    getKeys: function() {
+    getKeys: function getKeys() {
         return Object.keys(this._data);
     },
 
-    add: function(key, value) {
+    add: function add(key, value) {
         // monadic handler
         if (key !== null && typeof key === "object") {
             Object.keys(key).forEach(function(k) {
@@ -35,7 +35,7 @@ Dictionary.prototype = {
         return this;
     },
 
-    update: function(key, value) {
+    update: function update(key, value) {
         // monadic handler
         if (key !== null && typeof key === "object") {
             Object.keys(key).forEach(function(k) {
@@ -50,7 +50,7 @@ Dictionary.prototype = {
         return this;
     },
 
-    remove: function(key) {
+    remove: function remove(key) {
         var prev;
 
         if (this.exists(key)) {
@@ -64,21 +64,21 @@ Dictionary.prototype = {
         return this;
     },
 
-    get: function(key) {
+    get: function get(key) {
         return this._data[key];
     },
 
-    hasKey: function(key) {
+    hasKey: function hasKey(key) {
         return Object.prototype.hasOwnProperty.call(this._data, key);
     },
 
-    hasValue: function(value) {
+    hasValue: function hasValue(value) {
         return Object.keys(this._data).some(function(key) {
             return this._data[key] === value;
         }, this);
     },
 
-    forEach: function(cb) {
+    forEach: function forEach(cb) {
         if (typeof cb !== "function") {
             throw new TypeError("Dictionary.forEach() expects a function as argument. Provided\n" + cb + " (" + typeof cb + ")");
         }
@@ -89,10 +89,14 @@ Dictionary.prototype = {
         return this;
     },
 
-    clear: function() {
+    clear: function clear() {
         this._data = Object.create(null);
 
         return this;
+    },
+
+    isEmpty: function isEmpty() {
+        return Object.keys(this._data).length === 0;
     }
 };
 
