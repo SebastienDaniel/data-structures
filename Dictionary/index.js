@@ -9,13 +9,13 @@ function Dictionary() {
 }
 
 Dictionary.prototype = {
-    getValues: function() {
+    listValues: function() {
         return Object.keys(this._data).map(function(key) {
             return this._data[key];
         }, this);
     },
 
-    getKeys: function() {
+    listKeys: function() {
         return Object.keys(this._data);
     },
 
@@ -68,8 +68,14 @@ Dictionary.prototype = {
         return this._data[key];
     },
 
-    exists: function(key) {
+    hasKey: function(key) {
         return Object.prototype.hasOwnProperty.call(this._data, key);
+    },
+
+    hasValue: function(value) {
+        return Object.keys(this._data).find(function(key) {
+            return this._data[key] === value;
+        });
     },
 
     forEach: function(cb) {
