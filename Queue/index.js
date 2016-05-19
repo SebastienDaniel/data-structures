@@ -9,13 +9,13 @@ function Queue() {
 }
 
 Queue.prototype = {
-    add: function add(value) {
+    enqueue: function enqueue(value) {
         this._data.push(value);
 
         return this;
     },
 
-    remove: function remove() {
+    dequeue: function dequeue() {
         return this._data.shift();
     },
 

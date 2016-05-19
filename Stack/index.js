@@ -9,13 +9,13 @@ function Stack() {
 }
 
 Stack.prototype = {
-    add: function add(value) {
+    push: function push(value) {
         this._data.push(value);
 
         return this;
     },
 
-    remove: function remove() {
+    pop: function pop() {
         return this._data.pop();
     },
 
