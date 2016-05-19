@@ -9,9 +9,9 @@ describe("Dictionary", function() {
         expect(new Dictionary()).to.be.instanceof(Dictionary);
     });
 
-    describe("#add()", function() {
+    describe("#set()", function() {
         it("should return dictionary instance", function() {
-            var b = d.add("val1", 1);
+            var b = d.set("val1", 1);
 
             expect(b).to.equal(d);
             expect(b).to.be.instanceof(Dictionary);
@@ -19,22 +19,12 @@ describe("Dictionary", function() {
 
         it("should create unique entries only", function() {
             expect(function() {
-                return d.add("val2", 2);
+                return d.set("val2", 2);
             }).to.not.throw;
         });
 
-        it("should reject duplicate keys", function() {
-            expect(function() {
-                return d.add("val1", 1);
-            }).to.throw(Error);
-
-            expect(Object.keys(d._data).filter(function(key) {
-                return key === "val1";
-            }).length).to.eql(1);
-        });
-
         it("should accept two arguments (key, value)", function() {
-            var b = d.add(null, 3);
+            var b = d.set(null, 3);
 
             expect(b).to.be.instanceof(Dictionary);
             expect(b).to.equal(d);
@@ -42,42 +32,74 @@ describe("Dictionary", function() {
         });
 
         it("should accept monadic form ({key:value})", function() {
-            var b = d.add({val4:4});
+            var b = d.set({val4:4});
 
             expect(b).to.be.instanceof(Dictionary);
             expect(b).to.equal(d);
             expect(d._data["val4"]).to.eql(4);
         });
-    });
 
-    describe("#update()", function() {
-        it("should update existing entries only", function() {
-            expect(d.update("val4", 5)).to.be.instanceof(Dictionary);
-            expect(d.update("val4", 5)).to.equal(d);
+        it("should update existing entries", function() {
+            expect(d.set("val4", 5)).to.be.instanceof(Dictionary);
+            expect(d.set("val4", 5)).to.equal(d);
             expect(d._data["val4"]).to.eql(5);
-
-            expect(function() {
-                return d.update("non-existent", 10);
-            }).to.throw(Error);
         });
 
         it("should accept two arguments (key, value)", function() {
-            expect(d.update("val4", 6)).to.be.instanceof(Dictionary);
-            expect(d.update("val4", 6)).to.equal(d);
+            expect(d.set("val4", 6)).to.be.instanceof(Dictionary);
+            expect(d.set("val4", 6)).to.equal(d);
             expect(d._data["val4"]).to.eql(6);
         });
 
         it("should accept monadic form ({key:value})", function() {
-            expect(d.update({"val4":7})).to.be.instanceof(Dictionary);
-            expect(d.update({"val4":7})).to.equal(d);
+            expect(d.set({"val4":7})).to.be.instanceof(Dictionary);
+            expect(d.set({"val4":7})).to.equal(d);
             expect(d._data["val4"]).to.eql(7);
         });
     });
 
-    describe("#exists()", function() {
+    describe("#get()", function() {
+        it("should return existing values", function() {
+            expect(d.get("val4")).to.eql(7);
+        });
+
+        it("should return undefined when no key is found", function() {
+            expect(d.get("non-existant")).to.eql(undefined);
+        });
+
+        it("should return undefined when no key argument is provided", function() {
+            expect(d.get()).to.eql(undefined);
+        });
+    });
+
+    describe("#remove()", function() {
+        it("should remove an existing entry", function() {
+            d.set("val-to-die", "bye bye");
+            expect(d.hasKey("val-to-die")).to.be.true;
+            expect(d.get("val-to-die")).to.eql("bye bye");
+
+            d.remove("val-to-die");
+            expect(d.hasKey("val-to-die")).to.be.false;
+            expect(d.get("val-to-die")).to.eql(undefined);
+        });
+        
+        it("should return the Dictionary instance", function() {
+            expect(d.remove("val-to-die")).to.equal(d);
+        });
+    });
+
+    describe("#hasKey()", function() {
         it("should confirm/infirm existence of entries", function() {
-            expect(d.exists("val4")).to.be.true;
-            expect(d.exists("non-existant")).to.be.false;
+            expect(d.hasKey("val4")).to.be.true;
+            expect(d.hasKey("non-existant")).to.be.false;
+        });
+    });
+
+    describe("#hasValue()", function() {
+        it("should confirm/infirm existence of entries", function() {
+            d.set("val4", 44);
+            expect(d.hasValue(44)).to.be.true;
+            expect(d.hasValue("non-existant")).to.be.false;
         });
     });
 
@@ -85,7 +107,7 @@ describe("Dictionary", function() {
         var d = new Dictionary();
 
         [1, 2, "three", undefined, null].forEach(function(val) {
-            d.add(val, val);
+            d.set(val, val);
         });
 
         it("should return an array of all values in the dictionary", function() {
@@ -99,7 +121,7 @@ describe("Dictionary", function() {
             var d = new Dictionary();
 
             [1, 2, "three", undefined, null].forEach(function(val) {
-                d.add(val, val);
+                d.set(val, val);
             });
 
             it("should return an array of all values in the dictionary", function() {
@@ -119,6 +141,16 @@ describe("Dictionary", function() {
         it("should return dictionary instance", function() {
             expect(d.clear()).to.be.instanceof(Dictionary);
             expect(d.clear()).to.equal(d);
+        });
+    });
+
+    describe("#isEmpty()", function() {
+        it("should confirm if Dictionary contains any keys", function() {
+            var dd = Dictionary();
+            expect(dd.isEmpty()).to.be.true;
+
+            dd.set("key", "value");
+            expect(dd.isEmpty()).to.be.false;
         });
     });
 });
