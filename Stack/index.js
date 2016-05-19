@@ -1,6 +1,10 @@
 "use strict";
 
 function Stack() {
+    if (!(this instanceof Stack)) {
+        return new Stack();
+    }
+
     this._data = [];
 }
 
@@ -28,8 +32,12 @@ Stack.prototype = {
         }
     },
 
-    hasValue: function exists(value) {
-        return this._data.indexOf(value) !== -1;
+    hasValue: function exists(value, test) {
+        if (typeof test === "function") {
+            return this._data.some(test, this);
+        } else {
+            return this._data.indexOf(value) !== -1;
+        }
     },
 
     isEmpty: function isEmpty() {

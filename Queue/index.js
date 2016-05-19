@@ -1,6 +1,10 @@
 "use strict";
 
 function Queue() {
+    if (!(this instanceof Queue)) {
+        return new Queue();
+    }
+
     this._data = [];
 }
 
@@ -26,8 +30,12 @@ Queue.prototype = {
         return this._data[0];
     },
 
-    hasValue: function exists(value) {
-        return this._data.indexOf(value) !== -1;
+    hasValue: function exists(value, test) {
+        if (typeof test === "function") {
+            return this._data.some(test, this);
+        } else {
+            return this._data.indexOf(value) !== -1;
+        }
     },
 
     isEmpty: function isEmpty() {
