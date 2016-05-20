@@ -8,9 +8,9 @@ module.exports = function(grunt) {
                 jshintrc: true
             },
             src: [
-                "Dictionary/**/*.js",
-                "Queue/**/*.js",
-                "Stack/**/*.js"
+                "dictionary/**/*.js",
+                "queue/**/*.js",
+                "stack/**/*.js"
             ]
         },
         jscs: {
@@ -18,23 +18,26 @@ module.exports = function(grunt) {
                 config: ".jscsrc"
             },
             src: [
-                "Dictionary/**/*.js",
-                "Queue/**/*.js",
-                "Stack/**/*.js"
+                "dictionary/**/*.js",
+                "queue/**/*.js",
+                "stack/**/*.js"
             ]
         },
-        mochaTest: {
-            test: {
-                src: ["tests/**/*.test.js"]
+        mocha_istanbul: {
+            coverage: {
+                src: ["tests/unit/**/*.test.js"]
             }
+        },
+        exec: {
+            docs: "jsdoc2md -t readme.hbs dictionary/**/*.js > README.md"
         }
     });
 
     // Load the plugins
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-jscs");
-    grunt.loadNpmTasks("grunt-jsdoc");
-    grunt.loadNpmTasks("grunt-mocha-test");
+    grunt.loadNpmTasks("grunt-exec");
+    grunt.loadNpmTasks("grunt-mocha-istanbul");
     
-    grunt.registerTask("test", ["jshint", "jscs", "mochaTest"]);
+    grunt.registerTask("test", ["jshint", "jscs", "mocha_istanbul"]);
 };

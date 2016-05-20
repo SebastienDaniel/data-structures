@@ -29,9 +29,8 @@
     "grunt-contrib-jshint": "*",
     "grunt-exec": "*",
     "grunt-jscs": "*",
+    "istanbul": "*",
     "grunt-mocha-istanbul": "*",
-    "grunt-mocha-test": "^0.12.7",
-    "jsdoc-to-markdown": "*",
     "mocha": "*"
   }
 }
